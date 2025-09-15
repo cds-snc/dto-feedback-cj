@@ -1,0 +1,71 @@
+name: Build and Push to Container Registry Production
+
+on:
+  workflow_dispatch:
+
+env:
+  GITHUB_SHA: ${{ github.sha }}
+  REGISTRY: 730335533085.dkr.ecr.ca-central-1.amazonaws.com
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  build:
+    if: github.repository == 'cds-snc/dto-feedback-cronjob'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Audit DNS requests
+        uses: cds-snc/dns-proxy-action@main
+        env:
+          DNS_PROXY_FORWARDTOSENTINEL: "true"
+          DNS_PROXY_LOGANALYTICSWORKSPACEID: ${{ secrets.LOG_ANALYTICS_WORKSPACE_ID }}
+          DNS_PROXY_LOGANALYTICSSHAREDKEY: ${{ secrets.LOG_ANALYTICS_WORKSPACE_KEY }}
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure aws credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@v4.0.2
+        with:
+          role-to-assume: arn:aws:iam::730335533085:role/feedback-cronjob-apply
+          role-session-name: FeedbackCronjobGitHubActions
+          aws-region: "ca-central-1"
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build container
+        working-directory: ./
+        run: |
+          docker build \
+          -t $REGISTRY/feedback-cronjob:$GITHUB_SHA-`date '+%Y-%m-%d'` \
+          -t $REGISTRY/feedback-cronjob:latest \
+          -f docker/Dockerfile .
+
+      - name: Push containers to Amazon ECR
+        working-directory: ./
+        run: |
+          docker push $REGISTRY/feedback-cronjob:$GITHUB_SHA-`date '+%Y-%m-%d'`
+          docker push $REGISTRY/feedback-cronjob:latest
+
+      - name: Report deployment to Sentinel
+        uses: cds-snc/sentinel-forward-data-action@main
+        with:
+          input_data: '{"product": "feedback-cronjob", "version": "${{ github.sha }}", "repository": "${{ github.repository }}", "environment": "production"}'
+          log_type: CDS_Product_Deployment_Data
+          log_analytics_workspace_id: ${{ secrets.LOG_ANALYTICS_WORKSPACE_ID }}
+          log_analytics_workspace_key: ${{ secrets.LOG_ANALYTICS_WORKSPACE_KEY }}
+
+      - name: Docker generate SBOM
+        uses: cds-snc/security-tools/.github/actions/generate-sbom@v3.2.0
+        env:
+          TRIVY_DB_REPOSITORY: ${{ vars.TRIVY_DB_REPOSITORY }}
+        with:
+          docker_image: "${{ env.REGISTRY }}/feedback-cronjob:latest"
+          dockerfile_path: "./docker/Dockerfile"
+          sbom_name: "feedback-cronjob"
+          token: "${{ secrets.GITHUB_TOKEN }}"
