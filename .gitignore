@@ -1,0 +1,145 @@
+# Maven build artifacts
+**/target/
+*.jar
+!lib/*.jar
+*.war
+*.ear
+*.sar
+*.har
+
+# Compiled class files
+**/*.class
+
+# Log files
+**/*.log
+
+# BlueJ files
+**/*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Virtual machine crash logs
+hs_err_pid*
+
+# Spring Boot configuration files
+**/application.properties
+**/application*.properties
+**/application-local.properties
+**/spreadsheetCredentials.json
+**/StoredCredential
+**/PageSuccess-0.0.1-SNAPSHOT
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files - IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# IDE files - Eclipse
+.metadata
+.classpath
+.project
+.settings/
+.loadpath
+.recommenders
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+
+# IDE files - VS Code
+.vscode/
+
+# IDE files - NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Package files
+*.zip
+*.tar.gz
+*.rar
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+node_modules/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Terraform and Terragrunt
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+*.tfstate.lock.info
+.terraform/
+.terraform.lock.hcl
+.terragrunt-cache/
+terraform.tfvars
+terraform.tfvars.json
+*gitignore*.tf
+
+# Docker
+.dockerignore
+
+# Security and credentials
+service-account.json
+private-key*.pem
+*.p12
+*.pem
+*.key
+*.gpg
+*.keystore
+*.jks
+**/secrets/
+**/private/
+
+# Build tools
+.gradle/
+build/
+
+# Test output
+junit.xml
+TEST-*.xml
+
+# Backup files
+*.bak
+
+# Local development
+.devcontainer/data
+copilot/remember.md
+
+# Cleanup script (temporary)
+cleanup-git.sh
