@@ -40,7 +40,7 @@ jobs:
       - name: Configure aws credentials using OIDC
         uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
-          role-to-assume: arn:aws:iam::730335533085:role/feedback-cronjob-apply
+          role-to-assume: arn:aws:iam::730335533085:role/dto-feedback-cj-apply
           role-session-name: TFApply
           aws-region: ${{ env.AWS_REGION }}
 
