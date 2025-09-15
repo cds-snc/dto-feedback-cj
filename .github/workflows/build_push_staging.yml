@@ -21,7 +21,7 @@ permissions:
 
 jobs:
   build:
-    if: github.repository == 'cds-snc/dto-feedback-cronjob'
+    if: github.repository == 'cds-snc/dto-feedback-cj'
     runs-on: ubuntu-latest
     steps:
       - name: Audit DNS requests
@@ -37,8 +37,8 @@ jobs:
       - name: Set up JDK 1.8
         uses: actions/setup-java@v3
         with:
-          java-version: '8'
-          distribution: 'temurin'
+          java-version: "8"
+          distribution: "temurin"
 
       - name: Include local jar - PageSuccess
         run: mvn install:install-file -Dfile="lib/PageSuccess-0.0.1-SNAPSHOT.jar" -DgroupId="ca.gc.tbs" -DartifactId="PageSuccess" -Dversion="0.0.1-SNAPSHOT" -Dpackaging=jar -DgeneratePom=true

@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   build:
-    if: github.repository == 'cds-snc/dto-feedback-cronjob'
+    if: github.repository == 'cds-snc/dto-feedback-cj'
     runs-on: ubuntu-latest
     environment: production
     steps:
