@@ -31,7 +31,6 @@ permissions:
 
 jobs:
   terraform-plan:
-    if: github.repository == 'cds-snc/dto-feedback-cj'
     strategy:
       fail-fast: false
       matrix:

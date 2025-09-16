@@ -21,7 +21,6 @@ permissions:
 
 jobs:
   build:
-    if: github.repository == 'cds-snc/dto-feedback-cj'
     runs-on: ubuntu-latest
     steps:
       - name: Audit DNS requests
