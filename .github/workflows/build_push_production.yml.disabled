@@ -2,6 +2,14 @@ name: Build and Push to Container Registry Production
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/**"
+      - "pom.xml"
+      - "docker/**"
+      - ".github/workflows/build_push_production.yml"
 
 env:
   GITHUB_SHA: ${{ github.sha }}
@@ -25,6 +33,21 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v3
+        with:
+          java-version: "8"
+          distribution: "temurin"
+
+      - name: Include local jar - PageSuccess
+        run: mvn install:install-file -Dfile="lib/PageSuccess-0.0.1-SNAPSHOT.jar" -DgroupId="ca.gc.tbs" -DartifactId="PageSuccess" -Dversion="0.0.1-SNAPSHOT" -Dpackaging=jar -DgeneratePom=true
+
+      - name: Include local jar - Airtable
+        run: mvn install:install-file -Dfile="lib/airtable.java-0.2.0.jar" -DgroupId="com.sybit" -DartifactId="airtable.java" -Dversion="0.2.0" -Dpackaging=jar -DgeneratePom=true
+
+      - name: Build with Maven
+        run: mvn clean package -DskipTests
 
       - name: Configure aws credentials using OIDC
         uses: aws-actions/configure-aws-credentials@v4.0.2
