@@ -1,0 +1,28 @@
+terraform {
+  source = "../../../aws//iam"
+}
+
+dependencies {
+  paths = ["../ssm"]
+}
+
+dependency "ssm" {
+  config_path                             = "../ssm"
+  mock_outputs_allowed_terraform_commands = ["init", "fmt", "validate", "plan", "show"]
+  mock_outputs_merge_with_state           = true
+  mock_outputs = {
+    mongodb_uri_arn                = ""
+    airtable_api_key_arn           = ""
+    google_service_account_key_arn = ""
+  }
+}
+
+inputs = {
+  mongodb_uri_arn                = dependency.ssm.outputs.mongodb_uri_arn
+  airtable_api_key_arn           = dependency.ssm.outputs.airtable_api_key_arn
+  google_service_account_key_arn = dependency.ssm.outputs.google_service_account_key_arn
+}
+
+include {
+  path = find_in_parent_folders("root.hcl")
+}

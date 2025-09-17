@@ -1,0 +1,69 @@
+name: "Terraform apply production"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "terragrunt/env/production/**"
+      - ".github/workflows/tf_apply_production.yml"
+
+env:
+  AWS_REGION: ca-central-1
+  TERRAFORM_VERSION: 1.10.4
+  TERRAGRUNT_VERSION: 0.72.3
+  TF_VAR_mongodb_uri: ${{ secrets.MONGODB_URI }}
+  TF_VAR_airtable_api_key: ${{ secrets.AIRTABLE_API_KEY }}
+  TF_VAR_google_service_account_key: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+  TF_VAR_airtable_base: ${{ secrets.AIRTABLE_BASE }}
+  TF_VAR_health_airtable_base: ${{ secrets.HEALTH_AIRTABLE_BASE }}
+  TF_VAR_cra_airtable_base: ${{ secrets.CRA_AIRTABLE_BASE }}
+  TF_VAR_travel_airtable_base: ${{ secrets.TRAVEL_AIRTABLE_BASE }}
+  TF_VAR_ircc_airtable_base: ${{ secrets.IRCC_AIRTABLE_BASE }}
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terragrunt-apply:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform Tools
+        uses: cds-snc/terraform-tools-setup@v1
+
+      - name: Configure aws credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@v4.0.2
+        with:
+          role-to-assume: arn:aws:iam::730335533085:role/dto-feedback-cj-apply
+          role-session-name: TFApply
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Apply ssm
+        working-directory: terragrunt/env/production/ssm
+        run: terragrunt apply --terragrunt-non-interactive -auto-approve
+
+      - name: Apply network
+        working-directory: terragrunt/env/production/network
+        run: terragrunt apply --terragrunt-non-interactive -auto-approve
+
+      - name: Apply ecr
+        working-directory: terragrunt/env/production/ecr
+        run: terragrunt apply --terragrunt-non-interactive -auto-approve
+
+      - name: Apply iam
+        working-directory: terragrunt/env/production/iam
+        run: terragrunt apply --terragrunt-non-interactive -auto-approve
+
+      - name: Apply ecs
+        working-directory: terragrunt/env/production/ecs
+        run: terragrunt apply --terragrunt-non-interactive -auto-approve
+
+      - name: Apply eventbridge
+        working-directory: terragrunt/env/production/eventbridge
+        run: terragrunt apply --terragrunt-non-interactive -auto-approve
