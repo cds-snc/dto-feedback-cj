@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
 import static java.lang.System.exit;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"ca.gc.tbs.domain", "ca.gc.tbs.repository"})
+@ComponentScan(basePackages = { "ca.gc.tbs.domain", "ca.gc.tbs.repository" })
 @EnableMongoRepositories(repositoryFactoryBeanClass = DataTablesRepositoryFactoryBean.class)
 public class Main implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
@@ -76,14 +76,10 @@ public class Main implements CommandLineRunner {
     // Main AirTable
     @Value("${airtable.key}")
     private String airtableKey;
-    @Value("${airtable.tab}")
-    private String problemAirtableTab;
-    @Value("${airtable.pageTitleLookup}")
-    private String airtablePageTitleLookup;
-    @Value("${airtable.mlTags}")
-    private String airtableMLTags;
-    @Value("${airtable.URL_link}")
-    private String airtableURLLink;
+    private String problemAirtableTab = "Page feedback";
+    private String airtablePageTitleLookup = "Page feedback statistics";
+    private String airtableMLTags = "ML Tags";
+    private String airtableURLLink = "Page groups by URL";
     @Value("${airtable.base}")
     private String problemAirtableBase;
 
@@ -169,7 +165,8 @@ public class Main implements CommandLineRunner {
         this.completeProcessing();
     }
 
-    // Scrubs tasks (Exit Survey) that have not been cleaned using the cleaning script
+    // Scrubs tasks (Exit Survey) that have not been cleaned using the cleaning
+    // script
     public void removePersonalInfoExitSurvey() {
         List<TopTaskSurvey> tList = this.topTaskRepository.findByPersonalInfoProcessed(null);
         tList.addAll(this.topTaskRepository.findByPersonalInfoProcessed("false"));
@@ -195,7 +192,8 @@ public class Main implements CommandLineRunner {
                 task.setPersonalInfoProcessed("true");
                 this.topTaskRepository.save(task);
             } catch (Exception e) {
-                System.out.println("Could not process task: " + task.getId() + " : " + task.getDateTime() + " : " + task.getTaskOther() + " : "
+                System.out.println("Could not process task: " + task.getId() + " : " + task.getDateTime() + " : "
+                        + task.getTaskOther() + " : "
                         + task.getTaskImproveComment() + " : " + task.getTaskWhyNotComment());
             }
         }
@@ -220,7 +218,8 @@ public class Main implements CommandLineRunner {
         System.out.println("Private info removed...");
     }
 
-    // Removes white space values from comments to improve the filter for write in comments on the Feedback-Viewer.
+    // Removes white space values from comments to improve the filter for write in
+    // comments on the Feedback-Viewer.
     public void removeJunkDataTTS() {
         List<TopTaskSurvey> tList = this.topTaskRepository.findByProcessed("false");
         System.out.println("Amount of non processed entries (TTS) : " + tList.size());
@@ -228,24 +227,30 @@ public class Main implements CommandLineRunner {
             if (task == null || containsHTML(task.getTaskOther()) || containsHTML(task.getThemeOther()) ||
                     containsHTML(task.getTaskImproveComment()) || containsHTML(task.getTaskWhyNotComment())) {
                 assert task != null;
-                System.out.println("Deleting task: " + task.getId() + " , Task was null or had a hyperlink, taskOther: " + task.getTaskOther()
-                        + ", themeOther: " + task.getThemeOther() + ", taskWhyNotComment: " + task.getTaskWhyNotComment() + ", taskImproveComment: " + task.getTaskImproveComment());
+                System.out.println("Deleting task: " + task.getId() + " , Task was null or had a hyperlink, taskOther: "
+                        + task.getTaskOther()
+                        + ", themeOther: " + task.getThemeOther() + ", taskWhyNotComment: "
+                        + task.getTaskWhyNotComment() + ", taskImproveComment: " + task.getTaskImproveComment());
                 this.topTaskRepository.delete(task);
                 continue;
             }
-            if (task.getTaskOther() != null && task.getTaskOther().trim().equals("") && task.getTaskOther().length() != 0) {
+            if (task.getTaskOther() != null && task.getTaskOther().trim().equals("")
+                    && task.getTaskOther().length() != 0) {
                 System.out.println("found junk data in taskOther.");
                 task.setTaskOther("");
             }
-            if (task.getThemeOther() != null && task.getThemeOther().trim().equals("") && task.getThemeOther().length() != 0) {
+            if (task.getThemeOther() != null && task.getThemeOther().trim().equals("")
+                    && task.getThemeOther().length() != 0) {
                 System.out.println("found junk data in themeOther.");
                 task.setThemeOther("");
             }
-            if (task.getTaskImproveComment() != null && task.getTaskImproveComment().trim().equals("") && task.getTaskImproveComment().length() != 0) {
+            if (task.getTaskImproveComment() != null && task.getTaskImproveComment().trim().equals("")
+                    && task.getTaskImproveComment().length() != 0) {
                 System.out.println("found junk data in taskImproveComment.");
                 task.setTaskImproveComment("");
             }
-            if (task.getTaskWhyNotComment() != null && task.getTaskWhyNotComment().trim().equals("") && task.getTaskWhyNotComment().length() != 0) {
+            if (task.getTaskWhyNotComment() != null && task.getTaskWhyNotComment().trim().equals("")
+                    && task.getTaskWhyNotComment().length() != 0) {
                 System.out.println("found junk data in taskWhyNotComment.");
                 task.setTaskWhyNotComment("");
             }
@@ -255,10 +260,12 @@ public class Main implements CommandLineRunner {
         }
     }
 
-    // Retrieves ALL model & bases from spreadsheet and imports them to the TIER 1 map.
+    // Retrieves ALL model & bases from spreadsheet and imports them to the TIER 1
+    // map.
     public void importTier1() throws Exception {
         final Reader reader = new InputStreamReader(
-                new URL("https://docs.google.com/spreadsheets/d/1eOmX_b8XCR9eLNxUbX3Gwkp2ywJ-vhapnC7ApdRbnSg/export?format=csv").openConnection()
+                new URL("https://docs.google.com/spreadsheets/d/1eOmX_b8XCR9eLNxUbX3Gwkp2ywJ-vhapnC7ApdRbnSg/export?format=csv")
+                        .openConnection()
                         .getInputStream(),
                 StandardCharsets.UTF_8);
         final CSVFormat csvFormat = CSVFormat.Builder.create().setHeader().setAllowMissingColumnNames(true).build();
@@ -266,7 +273,7 @@ public class Main implements CommandLineRunner {
         try {
             for (final CSVRecord record : records) {
                 try {
-                    String[] modelBase = {record.get("MODEL"), record.get("BASE").toLowerCase()};
+                    String[] modelBase = { record.get("MODEL"), record.get("BASE").toLowerCase() };
                     tier1Spreadsheet.put(record.get("URL").toLowerCase(), modelBase);
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
@@ -281,7 +288,8 @@ public class Main implements CommandLineRunner {
     // Retrieves ALL URLs from spreadsheet and imports them to the TIER 2 map
     public void importTier2() throws Exception {
         final Reader reader = new InputStreamReader(
-                new URL("https://docs.google.com/spreadsheets/d/1B16qEbfp7SFCfIsZ8fcj7DneCy1WkR0GPh4t9L9NRSg/export?format=csv").openConnection()
+                new URL("https://docs.google.com/spreadsheets/d/1B16qEbfp7SFCfIsZ8fcj7DneCy1WkR0GPh4t9L9NRSg/export?format=csv")
+                        .openConnection()
                         .getInputStream(),
                 StandardCharsets.UTF_8);
         final CSVFormat csvFormat = CSVFormat.Builder.create().setHeader().setAllowMissingColumnNames(true).build();
@@ -300,8 +308,8 @@ public class Main implements CommandLineRunner {
         }
     }
 
-
-    // Retrieves Page feedback statistics page IDs and adds them to a hashmap for their respective AirTable base.
+    // Retrieves Page feedback statistics page IDs and adds them to a hashmap for
+    // their respective AirTable base.
     private void getPageTitleIds(Base base) throws Exception {
         @SuppressWarnings("unchecked")
         Table<AirTableStat> statsTable = base.table(this.airtablePageTitleLookup, AirTableStat.class);
@@ -312,13 +320,15 @@ public class Main implements CommandLineRunner {
                 try {
                     m.put(entry.getPageTitle().trim().toUpperCase(), entry.getId());
                 } catch (Exception e) {
-                    System.out.println(e.getMessage() + " Could not add Page Title ID: " + entry.getPageTitle() + " TO page title ID map.");
+                    System.out.println(e.getMessage() + " Could not add Page Title ID: " + entry.getPageTitle()
+                            + " TO page title ID map.");
                 }
             }
         });
     }
 
-    // Retrieves Page groups by URL and adds them to a hashmap for their respective AirTable base.
+    // Retrieves Page groups by URL and adds them to a hashmap for their respective
+    // AirTable base.
     private void getURLLinkIds(Base base) throws Exception {
         @SuppressWarnings("unchecked")
         Table<AirTableURLLink> urlLinkTable = base.table(this.airtableURLLink, AirTableURLLink.class);
@@ -329,13 +339,15 @@ public class Main implements CommandLineRunner {
                 try {
                     m.put(entry.getURLlink().trim().toUpperCase(), entry.getId());
                 } catch (Exception e) {
-                    System.out.println(e.getMessage() + " Could not add URL Link ID: " + entry.getURLlink() + " TO url link ID map.");
+                    System.out.println(e.getMessage() + " Could not add URL Link ID: " + entry.getURLlink()
+                            + " TO url link ID map.");
                 }
             }
         });
     }
 
-    // Retrieves ML Tags and adds them to a hashmap for their respective AirTable base.
+    // Retrieves ML Tags and adds them to a hashmap for their respective AirTable
+    // base.
     private void getMLTagIds(Base base) throws Exception {
         @SuppressWarnings("unchecked")
         Table<AirTableMLTag> tagsTable = base.table(airtableMLTags, AirTableMLTag.class);
@@ -346,7 +358,8 @@ public class Main implements CommandLineRunner {
                 try {
                     m.put(entry.getTag().trim().toUpperCase(), entry.getId());
                 } catch (Exception e) {
-                    System.out.println(e.getMessage() + " Could not add ML Tag ID: " + entry.getTag() + " TO ML tag ID map.");
+                    System.out.println(
+                            e.getMessage() + " Could not add ML Tag ID: " + entry.getTag() + " TO ML tag ID map.");
                 }
             }
         });
@@ -380,7 +393,8 @@ public class Main implements CommandLineRunner {
                     if (!model.equals("")) {
                         Document doc = Jsoup
                                 .connect(
-                                        "https://suggestion.tbs.alpha.canada.ca/suggestCategory?lang=" + lang + "&text=" + text + "&section=" + model)
+                                        "https://suggestion.tbs.alpha.canada.ca/suggestCategory?lang=" + lang + "&text="
+                                                + text + "&section=" + model)
                                 .maxBodySize(0).get();
                         String tags = doc.select("body").html();
                         System.out.println("Text:" + text + " : " + tags);
@@ -406,23 +420,28 @@ public class Main implements CommandLineRunner {
         }
     }
 
-
     // Populates entries to the AirTable bases and Tier 2 spreadsheet (inventory).
     @SuppressWarnings("unchecked")
     public void airTableSpreadsheetSync() {
         // Connect to AirTable bases
-        Table<AirTableProblemEnhanced> problemTable = mainBase.table(this.problemAirtableTab, AirTableProblemEnhanced.class);
-        Table<AirTableProblemEnhanced> healthTable = healthBase.table(this.problemAirtableTab, AirTableProblemEnhanced.class);
-        Table<AirTableProblemEnhanced> craTable = CRA_Base.table(this.problemAirtableTab, AirTableProblemEnhanced.class);
-        Table<AirTableProblemEnhanced> travelTable = travelBase.table(this.problemAirtableTab, AirTableProblemEnhanced.class);
-        Table<AirTableProblemEnhanced> irccTable = IRCC_Base.table(this.problemAirtableTab, AirTableProblemEnhanced.class);
+        Table<AirTableProblemEnhanced> problemTable = mainBase.table(this.problemAirtableTab,
+                AirTableProblemEnhanced.class);
+        Table<AirTableProblemEnhanced> healthTable = healthBase.table(this.problemAirtableTab,
+                AirTableProblemEnhanced.class);
+        Table<AirTableProblemEnhanced> craTable = CRA_Base.table(this.problemAirtableTab,
+                AirTableProblemEnhanced.class);
+        Table<AirTableProblemEnhanced> travelTable = travelBase.table(this.problemAirtableTab,
+                AirTableProblemEnhanced.class);
+        Table<AirTableProblemEnhanced> irccTable = IRCC_Base.table(this.problemAirtableTab,
+                AirTableProblemEnhanced.class);
         // Find problems that have not been run through this function
         Set<String> seenComments = new HashSet<>();
         List<Problem> pList = this.problemRepository.findByAirTableSync(null);
         pList.addAll(this.problemRepository.findByAirTableSync("false"));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         System.out.println("Connected to MongoDB & Airtable");
-        System.out.println("Found " + pList.size() + " records to be processed on Date: " + LocalDate.now().format(formatter));
+        System.out.println(
+                "Found " + pList.size() + " records to be processed on Date: " + LocalDate.now().format(formatter));
         int i = 1;
         int maxToSync = 150;
         for (Problem problem : pList) {
@@ -439,17 +458,21 @@ public class Main implements CommandLineRunner {
                 if (seenComments.contains(normalizedComment)) {
                     System.out.println("Skipping duplicate comment: " + problem.getProblemDetails());
                     writeDuplicateToFile(problem.getProblemDetails(), problem.getUrl(),
-                            problem.getProblemDate() != null ? problem.getProblemDate() : LocalDate.now().format(formatter), problem.getTimeStamp());
+                            problem.getProblemDate() != null ? problem.getProblemDate()
+                                    : LocalDate.now().format(formatter),
+                            problem.getTimeStamp());
                     problem.setAirTableSync("true"); // Mark as processed
                     problemRepository.save(problem);
                     continue;
                 }
                 seenComments.add(normalizedComment);
 
-
-                boolean problemIsProcessed = problem.getPersonalInfoProcessed().equals("true") && problem.getAutoTagProcessed().equals("true");
-                boolean junkComment = problem.getProblemDetails().trim().equals("") || containsHTML(problem.getProblemDetails())
-                        || problem.getUrl().equals("https://www.canada.ca/") || problem.getProblemDetails().length() > 301;
+                boolean problemIsProcessed = problem.getPersonalInfoProcessed().equals("true")
+                        && problem.getAutoTagProcessed().equals("true");
+                boolean junkComment = problem.getProblemDetails().trim().equals("")
+                        || containsHTML(problem.getProblemDetails())
+                        || problem.getUrl().equals("https://www.canada.ca/")
+                        || problem.getProblemDetails().length() > 301;
                 if (junkComment) {
                     System.out.println("Empty comment, deleting entry...");
                     problemRepository.delete(problem);
@@ -458,14 +481,17 @@ public class Main implements CommandLineRunner {
                 String UTM_values = extractUtmValues(problem.getUrl());
                 problem.setUrl(removeQueryAndFragment(problem.getUrl().toLowerCase()));
 
-                // if tier 1 and tier 2 spreadsheet don't contain URL, add it to Tier 2 and set sync to true
+                // if tier 1 and tier 2 spreadsheet don't contain URL, add it to Tier 2 and set
+                // sync to true
                 if (!tier1Spreadsheet.containsKey(problem.getUrl()) && !tier2Spreadsheet.contains(problem.getUrl())) {
                     tier2Spreadsheet.add(problem.getUrl());
                     GoogleSheetsAPI.appendURL(problem.getUrl());
                     problem.setAirTableSync("true");
-                    System.out.println("Processed record : " + i + " url not in spreadsheet " + problem.getUrl() + ", Added url to Tier 2 Spreadsheet.");
+                    System.out.println("Processed record : " + i + " url not in spreadsheet " + problem.getUrl()
+                            + ", Added url to Tier 2 Spreadsheet.");
                 }
-                // if tier 2 spreadsheet contains URL set AirTable sync to true // TIER 2 entries end here.
+                // if tier 2 spreadsheet contains URL set AirTable sync to true // TIER 2
+                // entries end here.
                 else if (tier2Spreadsheet.contains(problem.getUrl())) {
                     problem.setAirTableSync("true");
                     System.out.println("Processed record : " + i + " (Tier 2) EXISTS ALREADY");
@@ -476,12 +502,14 @@ public class Main implements CommandLineRunner {
                     if (!selectMapUrlLinkIds(selectBase(base)).containsKey(problem.getUrl().trim().toUpperCase())) {
                         this.createUrlLinkEntry(problem.getUrl(), selectBase(base), airtableURLLink);
                     }
-                    airProblem.getURLLinkIds().add(selectMapUrlLinkIds(selectBase(base)).get(problem.getUrl().trim().toUpperCase()));
+                    airProblem.getURLLinkIds()
+                            .add(selectMapUrlLinkIds(selectBase(base)).get(problem.getUrl().trim().toUpperCase()));
 
                     if (!selectMapPageTitleIds(selectBase(base)).containsKey(problem.getTitle().trim().toUpperCase())) {
                         this.createPageTitleEntry(problem.getTitle(), selectBase(base), airtablePageTitleLookup);
                     }
-                    airProblem.getPageTitleIds().add(selectMapPageTitleIds(selectBase(base)).get(problem.getTitle().trim().toUpperCase()));
+                    airProblem.getPageTitleIds()
+                            .add(selectMapPageTitleIds(selectBase(base)).get(problem.getTitle().trim().toUpperCase()));
 
                     for (String tag : problem.getTags()) {
                         String trimmedTag = tag.trim().toUpperCase();
@@ -519,7 +547,8 @@ public class Main implements CommandLineRunner {
                 i++;
                 this.problemRepository.save(problem);
             } catch (Exception e) {
-                System.out.println(e.getMessage() + " Could not sync record : " + problem.getId() + " URL:" + problem.getUrl());
+                System.out.println(
+                        e.getMessage() + " Could not sync record : " + problem.getId() + " URL:" + problem.getUrl());
             }
         }
     }
@@ -531,7 +560,8 @@ public class Main implements CommandLineRunner {
         for (Problem problem : pList) {
             try {
                 if (problem.getPersonalInfoProcessed().equals("true") && problem.getAutoTagProcessed().equals("true")
-                        && problem.getAirTableSync().equals("true") && (problem.getProcessed() == null || problem.getProcessed().equals("false"))) {
+                        && problem.getAirTableSync().equals("true")
+                        && (problem.getProcessed() == null || problem.getProcessed().equals("false"))) {
                     problem.setProcessedDate(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
                     problem.setProcessed("true");
                     this.problemRepository.save(problem);
@@ -545,8 +575,10 @@ public class Main implements CommandLineRunner {
     }
 
     public Boolean containsHTML(String comment) {
-        if (comment == null) return false;
-        // This normalizeSpace call was added because sometimes sentences are written with extra spaces between words which triggers as HTML.
+        if (comment == null)
+            return false;
+        // This normalizeSpace call was added because sometimes sentences are written
+        // with extra spaces between words which triggers as HTML.
         comment = StringUtils.normalizeSpace(comment);
         String parsedComment = Jsoup.parse(comment).text().trim();
         return parsedComment.length() != comment.trim().length();
@@ -571,7 +603,6 @@ public class Main implements CommandLineRunner {
                 .collect(Collectors.joining("&"));
     }
 
-
     public String removeQueryAndFragment(String url) {
         try {
             URIBuilder builder = new URIBuilder(url);
@@ -585,8 +616,8 @@ public class Main implements CommandLineRunner {
         }
     }
 
-
-    // Sets attributes. Made it into a function to make the code look a bit more readable.
+    // Sets attributes. Made it into a function to make the code look a bit more
+    // readable.
     public void setAirProblemAttributes(AirTableProblemEnhanced airProblem, Problem problem) {
         airProblem.setUniqueID(problem.getId());
         airProblem.setDate(problem.getProblemDate());
@@ -625,7 +656,6 @@ public class Main implements CommandLineRunner {
         HashMap<String, String> baseURLMap = selectMapUrlLinkIds(base);
         baseURLMap.put(url.trim().toUpperCase(), urlLink.getId());
     }
-
 
     public Base selectBase(String base) {
         if (base.equalsIgnoreCase("main")) {
