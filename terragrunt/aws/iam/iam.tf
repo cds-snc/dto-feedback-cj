@@ -24,7 +24,12 @@ data "aws_iam_policy_document" "feedback-cronjob-ssm-policy" {
     resources = [
       var.mongodb_uri_arn,
       var.airtable_api_key_arn,
+      var.airtable_base_arn,
       var.google_service_account_key_arn,
+      var.health_airtable_base_arn,
+      var.cra_airtable_base_arn,
+      var.travel_airtable_base_arn,
+      var.ircc_airtable_base_arn,
     ]
   }
 }
