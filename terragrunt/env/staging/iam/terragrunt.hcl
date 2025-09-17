@@ -14,6 +14,11 @@ dependency "ssm" {
     mongodb_uri_arn                = ""
     airtable_api_key_arn           = ""
     google_service_account_key_arn = ""
+    airtable_base_arn              = ""
+    health_airtable_base_arn       = ""
+    cra_airtable_base_arn          = ""
+    travel_airtable_base_arn       = ""
+    ircc_airtable_base_arn         = ""
   }
 }
 
@@ -21,6 +26,11 @@ inputs = {
   mongodb_uri_arn                = dependency.ssm.outputs.mongodb_uri_arn
   airtable_api_key_arn           = dependency.ssm.outputs.airtable_api_key_arn
   google_service_account_key_arn = dependency.ssm.outputs.google_service_account_key_arn
+  airtable_base_arn              = dependency.ssm.outputs.airtable_base_arn
+  health_airtable_base_arn       = dependency.ssm.outputs.health_airtable_base_arn
+  cra_airtable_base_arn          = dependency.ssm.outputs.cra_airtable_base_arn
+  travel_airtable_base_arn       = dependency.ssm.outputs.travel_airtable_base_arn
+  ircc_airtable_base_arn         = dependency.ssm.outputs.ircc_airtable_base_arn
 }
 
 include {
