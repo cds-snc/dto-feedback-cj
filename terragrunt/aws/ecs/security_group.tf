@@ -25,7 +25,7 @@ resource "aws_security_group_rule" "ecs_egress_all" {
 
 resource "aws_network_acl_rule" "ecs_egress_mongodb_port" {
   network_acl_id = "acl-0d283394117fa789e" # feedback-cronjob_main_nacl
-  rule_number    = 100 # A rule number lower than the implicit deny rule
+  rule_number    = 100                     # A rule number lower than the implicit deny rule
   egress         = true
   protocol       = "tcp"
   rule_action    = "allow"
