@@ -12,7 +12,6 @@ env:
   AWS_REGION: ca-central-1
   TERRAFORM_VERSION: 1.11.2
   TERRAGRUNT_VERSION: 0.75.6
-  TF_VAR_mongodb_uri: ${{ secrets.MONGODB_URI }}
   TF_VAR_airtable_api_key: ${{ secrets.AIRTABLE_API_KEY }}
   TF_VAR_google_service_account_key: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
   TF_VAR_airtable_base: ${{ secrets.AIRTABLE_BASE }}
@@ -36,6 +35,7 @@ jobs:
       matrix:
         include:
           - module: network
+          - module: documentdb
           - module: ecr
           - module: ssm
           - module: iam
