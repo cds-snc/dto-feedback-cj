@@ -22,7 +22,7 @@ data "aws_iam_policy_document" "feedback-cronjob-ssm-policy" {
       "ssm:GetParametersByPath"
     ]
     resources = [
-      var.mongodb_uri_arn,
+      var.docdb_uri_arn,
       var.airtable_api_key_arn,
       var.airtable_base_arn,
       var.google_service_account_key_arn,

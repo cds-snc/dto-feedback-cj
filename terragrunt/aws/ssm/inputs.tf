@@ -1,7 +1,22 @@
-variable "mongodb_uri" {
-  description = "MongoDB connection URI"
+variable "docdb_master_username" {
+  description = "The master username for the DocumentDB cluster"
+  type        = string
+}
+
+variable "docdb_master_password" {
+  description = "The master password for the DocumentDB cluster"
   type        = string
   sensitive   = true
+}
+
+variable "docdb_cluster_endpoint" {
+  description = "The connection endpoint for the DocumentDB cluster"
+  type        = string
+}
+
+variable "docdb_cluster_port" {
+  description = "The port for the DocumentDB cluster"
+  type        = number
 }
 
 variable "airtable_api_key" {

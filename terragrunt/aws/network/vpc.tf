@@ -15,7 +15,7 @@ module "feedback_cronjob_vpc" {
   # Use single NAT gateway for cost optimization in non-production
   single_nat_gateway = var.env != "production"
 
-  # Allow HTTPS outbound connections for API calls (MongoDB, AirTable, Google Sheets, ML service)
+  # Allow HTTPS outbound connections for API calls (DocumentDB, AirTable, Google Sheets, ML service)
   allow_https_request_out          = true
   allow_https_request_out_response = true
 

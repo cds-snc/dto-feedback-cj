@@ -41,8 +41,8 @@ variable "task_role_arn" {
 }
 
 # SSM Parameter ARNs for secrets
-variable "mongodb_uri_arn" {
-  description = "ARN of the MongoDB URI SSM parameter"
+variable "docdb_uri_arn" {
+  description = "ARN of the DocumentDB URI SSM parameter"
   type        = string
 }
 

@@ -1,6 +1,6 @@
-output "mongodb_uri_arn" {
-  description = "ARN of the MongoDB URI SSM parameter"
-  value       = aws_ssm_parameter.mongodb_uri.arn
+output "docdb_uri_arn" {
+  description = "ARN of the DocumentDB URI SSM parameter"
+  value       = aws_ssm_parameter.docdb_uri.arn
 }
 
 output "airtable_api_key_arn" {

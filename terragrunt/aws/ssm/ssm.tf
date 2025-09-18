@@ -1,12 +1,12 @@
 # SSM Parameters for feedback cronjob secrets
-resource "aws_ssm_parameter" "mongodb_uri" {
-  name        = "/${var.product_name}/${var.env}/mongodb-uri"
-  description = "MongoDB connection URI for feedback cronjob"
+resource "aws_ssm_parameter" "docdb_uri" {
+  name        = "/${var.product_name}/${var.env}/docdb-uri"
+  description = "DocumentDB connection URI for feedback cronjob"
   type        = "SecureString"
-  value       = var.mongodb_uri
+  value       = "mongodb://${var.docdb_master_username}:${var.docdb_master_password}@${var.docdb_cluster_endpoint}:${var.docdb_cluster_port}/?tls=true&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
 
   tags = {
-    Name        = "${var.product_name}-mongodb-uri"
+    Name        = "${var.product_name}-docdb-uri"
     Environment = var.env
     Product     = var.product_name
   }
