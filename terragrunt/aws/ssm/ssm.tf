@@ -1,12 +1,12 @@
 # SSM Parameters for feedback cronjob secrets
-resource "aws_ssm_parameter" "mongodb_uri" {
-  name        = "/${var.product_name}/${var.env}/mongodb-uri"
-  description = "MongoDB connection URI for feedback cronjob"
+resource "aws_ssm_parameter" "docdb_uri" {
+  name        = "/${var.product_name}/${var.env}/docdb-uri"
+  description = "DocumentDB connection URI for feedback cronjob"
   type        = "SecureString"
-  value       = var.mongodb_uri
+  value       = var.docdb_uri
 
   tags = {
-    Name        = "${var.product_name}-mongodb-uri"
+    Name        = "${var.product_name}-docdb-uri"
     Environment = var.env
     Product     = var.product_name
   }
@@ -98,6 +98,32 @@ resource "aws_ssm_parameter" "ircc_airtable_base" {
 
   tags = {
     Name        = "${var.product_name}-ircc-airtable-base"
+    Environment = var.env
+    Product     = var.product_name
+  }
+}
+
+resource "aws_ssm_parameter" "docdb_username" {
+  name        = "/${var.product_name}/${var.env}/docdb-username"
+  description = "DocumentDB master username"
+  type        = "SecureString"
+  value       = var.docdb_username
+
+  tags = {
+    Name        = "${var.product_name}-docdb-username"
+    Environment = var.env
+    Product     = var.product_name
+  }
+}
+
+resource "aws_ssm_parameter" "docdb_password" {
+  name        = "/${var.product_name}/${var.env}/docdb-password"
+  description = "DocumentDB master password"
+  type        = "SecureString"
+  value       = var.docdb_password
+
+  tags = {
+    Name        = "${var.product_name}-docdb-password"
     Environment = var.env
     Product     = var.product_name
   }
