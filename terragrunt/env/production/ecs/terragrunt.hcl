@@ -62,6 +62,7 @@ dependency "database" {
   mock_outputs_merge_with_state           = true
   mock_outputs = {
     aws_docdb_security_group_id = ""
+    docdb_uri_arn               = ""
   }
 }
 
@@ -72,7 +73,7 @@ inputs = {
   vpc_id                         = dependency.network.outputs.vpc_id
   ecr_repository_url             = dependency.ecr.outputs.ecr_repository_url
   ecr_repository_arn             = dependency.ecr.outputs.ecr_repository_arn
-  docdb_uri_arn                  = dependency.ssm.outputs.docdb_uri_arn
+  docdb_uri_arn                  = dependency.database.outputs.docdb_uri_arn
   airtable_api_key_arn           = dependency.ssm.outputs.airtable_api_key_arn
   google_service_account_key_arn = dependency.ssm.outputs.google_service_account_key_arn
   airtable_base_arn              = dependency.ssm.outputs.airtable_base_arn
