@@ -40,12 +40,6 @@ variable "task_role_arn" {
   type        = string
 }
 
-# SSM Parameter ARNs for secrets
-variable "mongodb_uri_arn" {
-  description = "ARN of the MongoDB URI SSM parameter"
-  type        = string
-}
-
 variable "airtable_api_key_arn" {
   description = "ARN of the AirTable API key SSM parameter"
   type        = string
@@ -79,5 +73,15 @@ variable "travel_airtable_base_arn" {
 
 variable "ircc_airtable_base_arn" {
   description = "ARN of the IRCC Airtable base SSM parameter"
+  type        = string
+}
+
+variable "aws_docdb_security_group_id" {
+  description = "Security group of the DocumentDB database"
+  type        = string
+}
+
+variable "docdb_uri_arn" {
+  description = "ARN of the Document DB URI parameter"
   type        = string
 }

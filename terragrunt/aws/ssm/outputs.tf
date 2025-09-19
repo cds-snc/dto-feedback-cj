@@ -1,6 +1,6 @@
-output "mongodb_uri_arn" {
-  description = "ARN of the MongoDB URI SSM parameter"
-  value       = aws_ssm_parameter.mongodb_uri.arn
+output "docdb_uri_arn" {
+  description = "ARN of the DocumentDB URI SSM parameter"
+  value       = aws_ssm_parameter.docdb_uri.arn
 }
 
 output "airtable_api_key_arn" {
@@ -36,4 +36,24 @@ output "travel_airtable_base_arn" {
 output "ircc_airtable_base_arn" {
   description = "ARN of the IRCC Airtable base SSM parameter"
   value       = aws_ssm_parameter.ircc_airtable_base.arn
+}
+
+output "docdb_username_name" {
+  description = "Name of the DocumentDB username SSM parameter"
+  value       = aws_ssm_parameter.docdb_username.name
+}
+
+output "docdb_password_name" {
+  description = "Name of the DocumentDB password SSM parameter"
+  value       = aws_ssm_parameter.docdb_password.name
+}
+
+output "docdb_username_arn" {
+  description = "ARN of the DocumentDB username SSM parameter"
+  value       = aws_ssm_parameter.docdb_username.arn
+}
+
+output "docdb_password_arn" {
+  description = "ARN of the DocumentDB password SSM parameter"
+  value       = aws_ssm_parameter.docdb_password.arn
 }

@@ -2,7 +2,7 @@ locals {
   container_secrets = [
     {
       "name"      = "SPRING_DATA_MONGODB_URI"
-      "valueFrom" = var.mongodb_uri_arn
+      "valueFrom" = var.docdb_uri_arn
     },
     {
       "name"      = "AIRTABLE_KEY"
