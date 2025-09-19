@@ -13,7 +13,8 @@ env:
   AWS_REGION: ca-central-1
   TERRAFORM_VERSION: 1.10.4
   TERRAGRUNT_VERSION: 0.72.3
-  TF_VAR_mongodb_uri: ${{ secrets.MONGODB_URI }}
+  TF_VAR_docdb_username: ${{ secrets.PROD_DOCDB_USERNAME }}
+  TF_VAR_docdb_password: ${{ secrets.PROD_DOCDB_PASSWORD }}
   TF_VAR_airtable_api_key: ${{ secrets.AIRTABLE_API_KEY }}
   TF_VAR_google_service_account_key: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
   TF_VAR_airtable_base: ${{ secrets.AIRTABLE_BASE }}
@@ -29,7 +30,6 @@ permissions:
 jobs:
   terragrunt-apply:
     runs-on: ubuntu-latest
-    environment: production
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -50,6 +50,10 @@ jobs:
 
       - name: Apply network
         working-directory: terragrunt/env/production/network
+        run: terragrunt apply --terragrunt-non-interactive -auto-approve
+
+      - name: Apply database
+        working-directory: terragrunt/env/production/database
         run: terragrunt apply --terragrunt-non-interactive -auto-approve
 
       - name: Apply ecr
