@@ -1,9 +1,3 @@
-variable "docdb_uri" {
-  description = "DocumentDB connection URI"
-  type        = string
-  sensitive   = true
-}
-
 variable "airtable_api_key" {
   description = "AirTable API key"
   type        = string

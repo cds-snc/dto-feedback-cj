@@ -1,8 +1,3 @@
-output "docdb_uri_arn" {
-  description = "ARN of the DocumentDB URI SSM parameter"
-  value       = aws_ssm_parameter.docdb_uri.arn
-}
-
 output "airtable_api_key_arn" {
   description = "ARN of the AirTable API key SSM parameter"
   value       = aws_ssm_parameter.airtable_api_key.arn

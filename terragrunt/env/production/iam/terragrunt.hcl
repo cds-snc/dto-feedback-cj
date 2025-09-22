@@ -3,7 +3,7 @@ terraform {
 }
 
 dependencies {
-  paths = ["../ssm"]
+  paths = ["../ssm", "../database"]
 }
 
 dependency "ssm" {
@@ -11,7 +11,6 @@ dependency "ssm" {
   mock_outputs_allowed_terraform_commands = ["init", "fmt", "validate", "plan", "show"]
   mock_outputs_merge_with_state           = true
   mock_outputs = {
-    docdb_uri_arn                  = ""
     docdb_username_arn             = ""
     docdb_password_arn             = ""
     airtable_api_key_arn           = ""
@@ -24,8 +23,17 @@ dependency "ssm" {
   }
 }
 
+dependency "database" {
+  config_path                             = "../database"
+  mock_outputs_allowed_terraform_commands = ["init", "fmt", "validate", "plan", "show"]
+  mock_outputs_merge_with_state           = true
+  mock_outputs = {
+    docdb_uri_arn = ""
+  }
+}
+
 inputs = {
-  docdb_uri_arn                  = dependency.ssm.outputs.docdb_uri_arn
+  docdb_uri_arn                  = dependency.database.outputs.docdb_uri_arn
   docdb_username_arn             = dependency.ssm.outputs.docdb_username_arn
   docdb_password_arn             = dependency.ssm.outputs.docdb_password_arn
   airtable_api_key_arn           = dependency.ssm.outputs.airtable_api_key_arn

@@ -1,17 +1,4 @@
 # SSM Parameters for feedback cronjob secrets
-resource "aws_ssm_parameter" "docdb_uri" {
-  name        = "/${var.product_name}/${var.env}/docdb-uri"
-  description = "DocumentDB connection URI for feedback cronjob"
-  type        = "SecureString"
-  value       = var.docdb_uri
-
-  tags = {
-    Name        = "${var.product_name}-docdb-uri"
-    Environment = var.env
-    Product     = var.product_name
-  }
-}
-
 resource "aws_ssm_parameter" "airtable_api_key" {
   name        = "/${var.product_name}/${var.env}/airtable-api-key"
   description = "AirTable API key for feedback cronjob"
