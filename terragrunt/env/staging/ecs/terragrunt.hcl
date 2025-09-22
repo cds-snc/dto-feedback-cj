@@ -3,7 +3,7 @@ terraform {
 }
 
 dependencies {
-  paths = ["../iam", "../network", "../ecr", "../ssm"]
+  paths = ["../iam", "../network", "../ecr", "../ssm", "../database"]
 }
 
 dependency "iam" {
@@ -44,7 +44,7 @@ dependency "ssm" {
   mock_outputs_allowed_terraform_commands = ["init", "fmt", "validate", "plan", "show"]
   mock_outputs_merge_with_state           = true
   mock_outputs = {
-    mongodb_uri_arn                = ""
+    docdb_uri_arn                  = ""
     airtable_api_key_arn           = ""
     google_service_account_key_arn = ""
     airtable_base_arn              = ""
@@ -55,6 +55,17 @@ dependency "ssm" {
   }
 }
 
+dependency "database" {
+  config_path = "../database"
+
+  mock_outputs_allowed_terraform_commands = ["init", "fmt", "validate", "plan", "show"]
+  mock_outputs_merge_with_state           = true
+  mock_outputs = {
+    aws_docdb_security_group_id = ""
+    docdb_uri_arn               = ""
+  }
+}
+
 inputs = {
   task_execution_role_arn        = dependency.iam.outputs.ecs_role_arn
   task_role_arn                  = dependency.iam.outputs.ecs_role_arn
@@ -62,7 +73,7 @@ inputs = {
   vpc_id                         = dependency.network.outputs.vpc_id
   ecr_repository_url             = dependency.ecr.outputs.ecr_repository_url
   ecr_repository_arn             = dependency.ecr.outputs.ecr_repository_arn
-  mongodb_uri_arn                = dependency.ssm.outputs.mongodb_uri_arn
+  docdb_uri_arn                  = dependency.database.outputs.docdb_uri_arn
   airtable_api_key_arn           = dependency.ssm.outputs.airtable_api_key_arn
   google_service_account_key_arn = dependency.ssm.outputs.google_service_account_key_arn
   airtable_base_arn              = dependency.ssm.outputs.airtable_base_arn
@@ -70,6 +81,7 @@ inputs = {
   cra_airtable_base_arn          = dependency.ssm.outputs.cra_airtable_base_arn
   travel_airtable_base_arn       = dependency.ssm.outputs.travel_airtable_base_arn
   ircc_airtable_base_arn         = dependency.ssm.outputs.ircc_airtable_base_arn
+  aws_docdb_security_group_id    = dependency.database.outputs.aws_docdb_security_group_id
 }
 
 include {

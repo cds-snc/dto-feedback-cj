@@ -23,16 +23,16 @@ resource "aws_security_group_rule" "ecs_egress_all" {
   security_group_id = aws_security_group.ecs_tasks.id
 }
 
-resource "aws_network_acl_rule" "ecs_egress_mongodb_port" {
-  network_acl_id = "acl-0d283394117fa789e" # feedback-cronjob_main_nacl
-  rule_number    = 100                     # A rule number lower than the implicit deny rule
-  egress         = true
-  protocol       = "tcp"
-  rule_action    = "allow"
-  cidr_block     = "0.0.0.0/0"
-  from_port      = 10255
-  to_port        = 10255
-  depends_on = [
-    aws_security_group.ecs_tasks
-  ]
+###
+# Traffic to DocumentDB should only come from ECS
+###
+
+resource "aws_security_group_rule" "database_ingress_ecs" {
+  description              = "Allow DocumentDB cluster to receive requests from ECS"
+  type                     = "ingress"
+  from_port                = 27017
+  to_port                  = 27017
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.ecs_tasks.id
+  security_group_id        = var.aws_docdb_security_group_id
 }

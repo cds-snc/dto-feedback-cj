@@ -1,9 +1,3 @@
-variable "mongodb_uri" {
-  description = "MongoDB connection URI"
-  type        = string
-  sensitive   = true
-}
-
 variable "airtable_api_key" {
   description = "AirTable API key"
   type        = string
@@ -42,6 +36,18 @@ variable "travel_airtable_base" {
 
 variable "ircc_airtable_base" {
   description = "IRCC Airtable base ID"
+  type        = string
+  sensitive   = true
+}
+
+variable "docdb_username" {
+  description = "DocumentDB master username"
+  type        = string
+  sensitive   = true
+}
+
+variable "docdb_password" {
+  description = "DocumentDB master password"
   type        = string
   sensitive   = true
 }
