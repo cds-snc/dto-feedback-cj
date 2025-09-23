@@ -8,9 +8,8 @@ COPY target/pagefeedback-cj-1.0.0-SNAPSHOT.jar /app/app.jar
 # Download AWS DocumentDB Certificate Authority (CA) certificate
 RUN wget https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem -O /app/global-bundle.pem
 
-# Import the certificate into Java's default truststore
-RUN keytool -importcert -trustcacerts -file /app/global-bundle.pem -alias aws-documentdb -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit -noprompt
+RUN keytool -importcert -trustcacerts -file /app/global-bundle.pem -alias aws-documentdb -keystore /app/documentdb-truststore.jks -storepass changeit -noprompt
 
-ENV JAVA_OPTS="-Xmx2g"
+ENV JAVA_OPTS="-Xmx2g -Djavax.net.ssl.trustStore=/app/documentdb-truststore.jks -Djavax.net.ssl.trustStorePassword=changeit"
 WORKDIR /app
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/app.jar"]
