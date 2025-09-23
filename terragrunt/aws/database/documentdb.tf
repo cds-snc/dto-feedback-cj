@@ -107,6 +107,6 @@ resource "aws_docdb_cluster_instance" "feedback_cronjob_docdb_instance" {
 resource "aws_ssm_parameter" "docdb_uri" {
   name       = "/${var.product_name}/${var.env}/docdb-uri"
   type       = "SecureString"
-  value      = "mongodb://${data.aws_ssm_parameter.docdb_username.value}:${data.aws_ssm_parameter.docdb_password.value}@${aws_docdb_cluster.feedback_cronjob_docdb_cluster.endpoint}:27017/pagesuccess?tls=true&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
+  value      = "mongodb://${data.aws_ssm_parameter.docdb_username.value}:${data.aws_ssm_parameter.docdb_password.value}@${aws_docdb_cluster.feedback_cronjob_docdb_cluster.endpoint}:27017/?tls=true&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
   depends_on = [aws_docdb_cluster_instance.feedback_cronjob_docdb_instance]
 }
