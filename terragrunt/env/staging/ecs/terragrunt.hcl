@@ -81,7 +81,12 @@ inputs = {
   cra_airtable_base_arn          = dependency.ssm.outputs.cra_airtable_base_arn
   travel_airtable_base_arn       = dependency.ssm.outputs.travel_airtable_base_arn
   ircc_airtable_base_arn         = dependency.ssm.outputs.ircc_airtable_base_arn
-  aws_docdb_security_group_id    = dependency.database.outputs.aws_docdb_security_group_id
+  aws_docdb_security_group_id       = dependency.database.outputs.aws_docdb_security_group_id
+  feedback_viewer_security_group_id = local.env_vars.inputs.feedback_viewer_security_group_id
+}
+
+locals {
+  env_vars = read_terragrunt_config(find_in_parent_folders("env_vars.hcl"))
 }
 
 include {

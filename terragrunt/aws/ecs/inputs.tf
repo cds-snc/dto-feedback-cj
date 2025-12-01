@@ -81,6 +81,12 @@ variable "aws_docdb_security_group_id" {
   type        = string
 }
 
+variable "feedback_viewer_security_group_id" {
+  description = "Security group ID of the feedback-viewer ECS tasks (optional, for cross-repo access)"
+  type        = string
+  default     = ""
+}
+
 variable "docdb_uri_arn" {
   description = "ARN of the Document DB URI parameter"
   type        = string

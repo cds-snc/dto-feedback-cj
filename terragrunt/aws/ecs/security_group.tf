@@ -36,3 +36,14 @@ resource "aws_security_group_rule" "database_ingress_ecs" {
   source_security_group_id = aws_security_group.ecs_tasks.id
   security_group_id        = var.aws_docdb_security_group_id
 }
+
+resource "aws_security_group_rule" "database_ingress_feedback_viewer" {
+  count                    = var.feedback_viewer_security_group_id != "" ? 1 : 0
+  description              = "Allow DocumentDB cluster to receive requests from feedback-viewer ECS"
+  type                     = "ingress"
+  from_port                = 27017
+  to_port                  = 27017
+  protocol                 = "tcp"
+  source_security_group_id = var.feedback_viewer_security_group_id
+  security_group_id        = var.aws_docdb_security_group_id
+}
