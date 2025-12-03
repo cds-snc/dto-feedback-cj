@@ -76,6 +76,9 @@ public class Main implements CommandLineRunner {
     // Main AirTable
     @Value("${airtable.key}")
     private String airtableKey;
+
+    @Value("${google.service.account.key}")
+    private String googleServiceAccountKey;
     private String problemAirtableTab = "Page feedback";
     private String airtablePageTitleLookup = "Page feedback statistics";
     private String airtableMLTags = "ML Tags";
@@ -113,6 +116,9 @@ public class Main implements CommandLineRunner {
     // Main Loop, Runs all functions needed.
     @Override
     public void run(String... args) throws Exception {
+
+        // Set Google Service Account Key for GoogleSheetsAPI
+        GoogleSheetsAPI.setServiceAccountKey(this.googleServiceAccountKey);
 
         Airtable airTableKey = new Airtable().configure(this.airtableKey);
 
