@@ -55,7 +55,7 @@ locals {
 }
 
 module "feedback_cronjob" {
-  source = "github.com/cds-snc/terraform-modules//ecs?ref=v11.4.1"
+  source = "github.com/cds-snc/terraform-modules//ecs?ref=v11.4.3"
 
   # Cluster and service - Note: This will be used as a scheduled task, not a service
   cluster_name = "${var.product_name}-cluster"

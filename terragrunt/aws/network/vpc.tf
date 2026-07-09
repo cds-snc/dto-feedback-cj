@@ -1,6 +1,6 @@
 # VPC module for feedback cronjob
 module "feedback_cronjob_vpc" {
-  source            = "github.com/cds-snc/terraform-modules//vpc?ref=v11.4.1"
+  source            = "github.com/cds-snc/terraform-modules//vpc?ref=v11.4.3"
   name              = var.product_name
   billing_tag_value = var.billing_tag_value
 
