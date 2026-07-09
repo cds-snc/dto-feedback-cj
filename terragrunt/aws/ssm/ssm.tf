@@ -1,5 +1,6 @@
 # SSM Parameters for feedback cronjob secrets
 resource "aws_ssm_parameter" "airtable_api_key" {
+  provider    = aws.core_services
   name        = "/${var.product_name}/${var.env}/airtable-api-key"
   description = "AirTable API key for feedback cronjob"
   type        = "SecureString"
@@ -13,6 +14,7 @@ resource "aws_ssm_parameter" "airtable_api_key" {
 }
 
 resource "aws_ssm_parameter" "google_service_account_key" {
+  provider    = aws.core_services
   name        = "/${var.product_name}/${var.env}/google-service-account-key"
   description = "Google Service Account key for Google Sheets API"
   type        = "SecureString"
@@ -26,6 +28,7 @@ resource "aws_ssm_parameter" "google_service_account_key" {
 }
 
 resource "aws_ssm_parameter" "airtable_base" {
+  provider    = aws.core_services
   name        = "/${var.product_name}/${var.env}/airtable-base"
   description = "Main Airtable base ID"
   type        = "SecureString"
@@ -39,6 +42,7 @@ resource "aws_ssm_parameter" "airtable_base" {
 }
 
 resource "aws_ssm_parameter" "health_airtable_base" {
+  provider    = aws.core_services
   name        = "/${var.product_name}/${var.env}/health-airtable-base"
   description = "Health Airtable base ID"
   type        = "SecureString"
@@ -52,6 +56,7 @@ resource "aws_ssm_parameter" "health_airtable_base" {
 }
 
 resource "aws_ssm_parameter" "cra_airtable_base" {
+  provider    = aws.core_services
   name        = "/${var.product_name}/${var.env}/cra-airtable-base"
   description = "CRA Airtable base ID"
   type        = "SecureString"
@@ -65,6 +70,7 @@ resource "aws_ssm_parameter" "cra_airtable_base" {
 }
 
 resource "aws_ssm_parameter" "travel_airtable_base" {
+  provider    = aws.core_services
   name        = "/${var.product_name}/${var.env}/travel-airtable-base"
   description = "Travel Airtable base ID"
   type        = "SecureString"
@@ -78,6 +84,7 @@ resource "aws_ssm_parameter" "travel_airtable_base" {
 }
 
 resource "aws_ssm_parameter" "ircc_airtable_base" {
+  provider    = aws.core_services
   name        = "/${var.product_name}/${var.env}/ircc-airtable-base"
   description = "IRCC Airtable base ID"
   type        = "SecureString"
@@ -91,6 +98,7 @@ resource "aws_ssm_parameter" "ircc_airtable_base" {
 }
 
 resource "aws_ssm_parameter" "docdb_username" {
+  provider    = aws.core_services
   name        = "/${var.product_name}/${var.env}/docdb-username"
   description = "DocumentDB master username"
   type        = "SecureString"
@@ -104,6 +112,7 @@ resource "aws_ssm_parameter" "docdb_username" {
 }
 
 resource "aws_ssm_parameter" "docdb_password" {
+  provider    = aws.core_services
   name        = "/${var.product_name}/${var.env}/docdb-password"
   description = "DocumentDB master password"
   type        = "SecureString"
