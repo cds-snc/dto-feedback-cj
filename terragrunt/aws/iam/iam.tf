@@ -37,6 +37,7 @@ data "aws_iam_policy_document" "feedback-cronjob-ssm-policy" {
 }
 
 resource "aws_iam_policy" "feedback-cronjob-ssm-policy" {
+  provider    = aws.core_services
   name        = "${var.product_name}-ssm-policy"
   description = "Policy for ${var.product_name} ${var.env} to access SSM parameters"
   policy      = data.aws_iam_policy_document.feedback-cronjob-ssm-policy.json
@@ -48,16 +49,19 @@ resource "aws_iam_policy" "feedback-cronjob-ssm-policy" {
 }
 
 resource "aws_iam_role" "feedback-cronjob-ecs-role" {
+  provider           = aws.core_services
   name               = "${var.product_name}-ecs-role"
   assume_role_policy = data.aws_iam_policy_document.feedback-cronjob-ecs-policy.json
 }
 
 resource "aws_iam_role_policy_attachment" "feedback-cronjob-ecs-policy" {
+  provider   = aws.core_services
   role       = aws_iam_role.feedback-cronjob-ecs-role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
 resource "aws_iam_policy_attachment" "feedback-cronjob-ssm-policy" {
+  provider   = aws.core_services
   name       = "${var.product_name}-ssm-policy"
   policy_arn = aws_iam_policy.feedback-cronjob-ssm-policy.arn
   roles      = [aws_iam_role.feedback-cronjob-ecs-role.name]

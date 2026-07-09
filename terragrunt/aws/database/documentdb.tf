@@ -11,6 +11,7 @@ data "aws_ssm_parameter" "docdb_password" {
 
 # Create a security group for the DocumentDB cluster
 resource "aws_security_group" "feedback_cronjob_docdb_sg" {
+  provider    = aws.core_services
   name        = "${var.product_name}-docdb-sg"
   description = "Security group for DocumentDB for the ${var.product_name} app"
   vpc_id      = var.vpc_id
