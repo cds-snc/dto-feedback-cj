@@ -3,6 +3,7 @@
 ###
 
 resource "aws_security_group" "ecs_tasks" {
+  provider    = aws.core_services
   name        = "${var.product_name}-ecs-sg"
   description = "Security group for feedback cronjob ECS tasks"
   vpc_id      = var.vpc_id

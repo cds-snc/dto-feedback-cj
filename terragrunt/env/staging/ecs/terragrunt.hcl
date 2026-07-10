@@ -67,20 +67,20 @@ dependency "database" {
 }
 
 inputs = {
-  task_execution_role_arn        = dependency.iam.outputs.ecs_role_arn
-  task_role_arn                  = dependency.iam.outputs.ecs_role_arn
-  vpc_private_subnet_ids         = dependency.network.outputs.vpc_private_subnet_ids
-  vpc_id                         = dependency.network.outputs.vpc_id
-  ecr_repository_url             = dependency.ecr.outputs.ecr_repository_url
-  ecr_repository_arn             = dependency.ecr.outputs.ecr_repository_arn
-  docdb_uri_arn                  = dependency.database.outputs.docdb_uri_arn
-  airtable_api_key_arn           = dependency.ssm.outputs.airtable_api_key_arn
-  google_service_account_key_arn = dependency.ssm.outputs.google_service_account_key_arn
-  airtable_base_arn              = dependency.ssm.outputs.airtable_base_arn
-  health_airtable_base_arn       = dependency.ssm.outputs.health_airtable_base_arn
-  cra_airtable_base_arn          = dependency.ssm.outputs.cra_airtable_base_arn
-  travel_airtable_base_arn       = dependency.ssm.outputs.travel_airtable_base_arn
-  ircc_airtable_base_arn         = dependency.ssm.outputs.ircc_airtable_base_arn
+  task_execution_role_arn           = dependency.iam.outputs.ecs_role_arn
+  task_role_arn                     = dependency.iam.outputs.ecs_role_arn
+  vpc_private_subnet_ids            = dependency.network.outputs.vpc_private_subnet_ids
+  vpc_id                            = dependency.network.outputs.vpc_id
+  ecr_repository_url                = dependency.ecr.outputs.ecr_repository_url
+  ecr_repository_arn                = dependency.ecr.outputs.ecr_repository_arn
+  docdb_uri_arn                     = dependency.database.outputs.docdb_uri_arn
+  airtable_api_key_arn              = dependency.ssm.outputs.airtable_api_key_arn
+  google_service_account_key_arn    = dependency.ssm.outputs.google_service_account_key_arn
+  airtable_base_arn                 = dependency.ssm.outputs.airtable_base_arn
+  health_airtable_base_arn          = dependency.ssm.outputs.health_airtable_base_arn
+  cra_airtable_base_arn             = dependency.ssm.outputs.cra_airtable_base_arn
+  travel_airtable_base_arn          = dependency.ssm.outputs.travel_airtable_base_arn
+  ircc_airtable_base_arn            = dependency.ssm.outputs.ircc_airtable_base_arn
   aws_docdb_security_group_id       = dependency.database.outputs.aws_docdb_security_group_id
   feedback_viewer_security_group_id = local.env_vars.inputs.feedback_viewer_security_group_id
 }

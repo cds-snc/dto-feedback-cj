@@ -32,7 +32,8 @@ resource "aws_cloudwatch_event_target" "ecs_target" {
 
 # IAM Role for EventBridge to invoke ECS tasks
 resource "aws_iam_role" "eventbridge_role" {
-  name = "${var.product_name}-eventbridge-role"
+  provider = aws.core_services
+  name     = "${var.product_name}-eventbridge-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -54,8 +55,9 @@ resource "aws_iam_role" "eventbridge_role" {
 
 # IAM Policy for EventBridge to run ECS tasks
 resource "aws_iam_role_policy" "eventbridge_policy" {
-  name = "${var.product_name}-eventbridge-policy"
-  role = aws_iam_role.eventbridge_role.id
+  provider = aws.core_services
+  name     = "${var.product_name}-eventbridge-policy"
+  role     = aws_iam_role.eventbridge_role.id
 
   policy = jsonencode({
     Version = "2012-10-17"

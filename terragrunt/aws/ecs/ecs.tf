@@ -55,7 +55,7 @@ locals {
 }
 
 module "feedback_cronjob" {
-  source = "github.com/cds-snc/terraform-modules//ecs?ref=v10.7.0"
+  source = "github.com/cds-snc/terraform-modules//ecs?ref=v11.4.3"
 
   # Cluster and service - Note: This will be used as a scheduled task, not a service
   cluster_name = "${var.product_name}-cluster"
@@ -106,11 +106,13 @@ module "feedback_cronjob" {
 
 # CloudWatch Log Group
 resource "aws_cloudwatch_log_group" "feedback_cronjob" {
+  provider          = aws.core_services
   name              = "/aws/ecs/${var.product_name}-cluster"
   retention_in_days = 30
 }
 
 resource "aws_cloudwatch_log_stream" "feedback_cronjob" {
+  provider       = aws.core_services
   name           = "${var.product_name}-log-stream"
   log_group_name = aws_cloudwatch_log_group.feedback_cronjob.name
 }
