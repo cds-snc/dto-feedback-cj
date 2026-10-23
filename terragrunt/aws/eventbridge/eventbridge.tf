@@ -3,6 +3,7 @@ resource "aws_cloudwatch_event_rule" "feedback_cronjob_schedule" {
   name                = "${var.product_name}-schedule"
   description         = "Trigger feedback cronjob every 10 minutes"
   schedule_expression = "rate(10 minutes)"
+  is_enabled          = false
 
   tags = {
     "CostCentre" = var.billing_code
