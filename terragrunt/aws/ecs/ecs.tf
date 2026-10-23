@@ -94,8 +94,8 @@ module "feedback_cronjob" {
   # No load balancer needed for cronjob
   lb_target_group_arn = null
 
-  # Forward logs to Sentinel
-  sentinel_forwarder           = true
+  # Disable forwarding logs to Sentinel as repository is no longer active currently.
+  # sentinel_forwarder           = true
   sentinel_forwarder_layer_arn = "arn:aws:lambda:ca-central-1:283582579564:layer:aws-sentinel-connector-layer:227"
 
   billing_tag_value = var.billing_code
