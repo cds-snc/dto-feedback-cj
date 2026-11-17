@@ -16,10 +16,6 @@ env:
   TF_VAR_airtable_api_key: ${{ secrets.AIRTABLE_API_KEY }}
   TF_VAR_google_service_account_key: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
   TF_VAR_airtable_base: ${{ secrets.AIRTABLE_BASE }}
-  TF_VAR_health_airtable_base: ${{ secrets.HEALTH_AIRTABLE_BASE }}
-  TF_VAR_cra_airtable_base: ${{ secrets.CRA_AIRTABLE_BASE }}
-  TF_VAR_travel_airtable_base: ${{ secrets.TRAVEL_AIRTABLE_BASE }}
-  TF_VAR_ircc_airtable_base: ${{ secrets.IRCC_AIRTABLE_BASE }}
 
 permissions:
   id-token: write

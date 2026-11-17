@@ -13,26 +13,6 @@ output "airtable_base_arn" {
   value       = aws_ssm_parameter.airtable_base.arn
 }
 
-output "health_airtable_base_arn" {
-  description = "ARN of the health Airtable base SSM parameter"
-  value       = aws_ssm_parameter.health_airtable_base.arn
-}
-
-output "cra_airtable_base_arn" {
-  description = "ARN of the CRA Airtable base SSM parameter"
-  value       = aws_ssm_parameter.cra_airtable_base.arn
-}
-
-output "travel_airtable_base_arn" {
-  description = "ARN of the travel Airtable base SSM parameter"
-  value       = aws_ssm_parameter.travel_airtable_base.arn
-}
-
-output "ircc_airtable_base_arn" {
-  description = "ARN of the IRCC Airtable base SSM parameter"
-  value       = aws_ssm_parameter.ircc_airtable_base.arn
-}
-
 output "docdb_username_name" {
   description = "Name of the DocumentDB username SSM parameter"
   value       = aws_ssm_parameter.docdb_username.name

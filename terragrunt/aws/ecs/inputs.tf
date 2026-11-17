@@ -56,26 +56,6 @@ variable "airtable_base_arn" {
   type        = string
 }
 
-variable "health_airtable_base_arn" {
-  description = "ARN of the health Airtable base SSM parameter"
-  type        = string
-}
-
-variable "cra_airtable_base_arn" {
-  description = "ARN of the CRA Airtable base SSM parameter"
-  type        = string
-}
-
-variable "travel_airtable_base_arn" {
-  description = "ARN of the travel Airtable base SSM parameter"
-  type        = string
-}
-
-variable "ircc_airtable_base_arn" {
-  description = "ARN of the IRCC Airtable base SSM parameter"
-  type        = string
-}
-
 variable "aws_docdb_security_group_id" {
   description = "Security group of the DocumentDB database"
   type        = string

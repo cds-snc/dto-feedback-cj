@@ -16,30 +16,6 @@ variable "airtable_base" {
   sensitive   = true
 }
 
-variable "health_airtable_base" {
-  description = "Health Airtable base ID"
-  type        = string
-  sensitive   = true
-}
-
-variable "cra_airtable_base" {
-  description = "CRA Airtable base ID"
-  type        = string
-  sensitive   = true
-}
-
-variable "travel_airtable_base" {
-  description = "Travel Airtable base ID"
-  type        = string
-  sensitive   = true
-}
-
-variable "ircc_airtable_base" {
-  description = "IRCC Airtable base ID"
-  type        = string
-  sensitive   = true
-}
-
 variable "docdb_username" {
   description = "DocumentDB master username"
   type        = string
