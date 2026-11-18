@@ -9,47 +9,19 @@ locals {
       "valueFrom" = var.airtable_api_key_arn
     },
     {
-      "name"      = "GOOGLE_SERVICE_ACCOUNT_KEY"
-      "valueFrom" = var.google_service_account_key_arn
-    },
-    {
       "name"      = "AIRTABLE_BASE"
       "valueFrom" = var.airtable_base_arn
     },
     {
-      "name"      = "HEALTH_AIRTABLE_BASE"
-      "valueFrom" = var.health_airtable_base_arn
-    },
-    {
-      "name"      = "CRA_AIRTABLE_BASE"
-      "valueFrom" = var.cra_airtable_base_arn
-    },
-    {
-      "name"      = "TRAVEL_AIRTABLE_BASE"
-      "valueFrom" = var.travel_airtable_base_arn
-    },
-    {
-      "name"      = "IRCC_AIRTABLE_BASE"
-      "valueFrom" = var.ircc_airtable_base_arn
+      "name"      = "GOOGLE_SERVICE_ACCOUNT_JSON"
+      "valueFrom" = var.google_service_account_key_arn
     }
   ]
 
   container_environment = [
     {
-      "name"  = "AIRTABLE_TAB"
-      "value" = "Page feedback"
-    },
-    {
-      "name"  = "AIRTABLE_PAGE_TITLE_LOOKUP"
-      "value" = "Page feedback statistics"
-    },
-    {
-      "name"  = "AIRTABLE_ML_TAGS"
-      "value" = "ML Tags"
-    },
-    {
-      "name"  = "AIRTABLE_URL_LINK"
-      "value" = "Page groups by URL"
+      "name"  = "SPRING_PROFILES_ACTIVE"
+      "value" = "prod"
     }
   ]
 }

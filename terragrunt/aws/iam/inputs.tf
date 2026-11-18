@@ -14,26 +14,6 @@ variable "google_service_account_key_arn" {
   type        = string
 }
 
-variable "health_airtable_base_arn" {
-  description = "ARN of the Health AirTable Base SSM parameter"
-  type        = string
-}
-
-variable "cra_airtable_base_arn" {
-  description = "ARN of the CRA AirTable Base SSM parameter"
-  type        = string
-}
-
-variable "travel_airtable_base_arn" {
-  description = "ARN of the Travel AirTable Base SSM parameter"
-  type        = string
-}
-
-variable "ircc_airtable_base_arn" {
-  description = "ARN of the IRCC AirTable Base SSM parameter"
-  type        = string
-}
-
 variable "docdb_uri_arn" {
   description = "ARN of the DocumentDB URI SSM parameter"
   type        = string
